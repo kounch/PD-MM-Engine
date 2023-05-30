@@ -1,0 +1,8 @@
+name=Manic Miner
+author=kounch
+description=A remake of the engine of the classic 8-bit game
+bundleID=com.kounch.manicminer
+version=1.0.0
+buildNumber=1
+imagePath=launcher/
+launchSoundPath=launcher_path/

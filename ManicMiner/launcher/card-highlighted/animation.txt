@@ -1,0 +1,3 @@
+loop = 100
+frames = 1x10, 2x10
+introFrames = 1x10, 2x10
