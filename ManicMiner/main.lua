@@ -75,9 +75,10 @@ local dx=0                -- Virtual X coordinate displacement vector
 local pdx=0               -- Previous frame virtual X coordinate displacement vector
 local jumpState = -1      -- Current player jump loop status
 local gameScore = 0       -- Current game score
+local diffGameScore = 0   -- Game score (for extra lives)
 local isKill = false      -- Has the player been killed?
 local gameLives = 0       -- Remaining player lives
-local fallCount = 0        -- If falling, current fall length
+local fallCount = 0       -- If falling, current fall length
 
 -- Global game Attributes
 local endRoom = false     -- Should finish current room?
@@ -1037,6 +1038,7 @@ local function saveOptions()
         roomStatus = roomStatus,
         gameLives = gameLives,
         gameScore = gameScore,
+        diffGameScore = diffGameScore,
         cheatLevel = cheatLevel
     }
     playdate.datastore.write(gameOptions)
@@ -1135,6 +1137,9 @@ local function gameSetUp()
     if gameOptions and gameOptions.gameScore ~= nil then
         gameScore = gameOptions.gameScore
     end
+    if gameOptions and gameOptions.diffGameScore ~= nil then
+        diffGameScore = gameOptions.diffGameScore
+    end
     if gameOptions and gameOptions.cheatLevel ~= nil then
         cheatLevel = gameOptions.cheatLevel
         SetPlaydateMenu()
@@ -1172,7 +1177,7 @@ local function gameSetUp()
 
     loadData()
 
-    if roomNumber > 0 then
+    if roomNumber > 0 and roomStatus ~= 0 then
         gameStatus = 7
     end
 end
@@ -1225,6 +1230,7 @@ local function gameStart()
     roomStatus = 1
     gameLives = 3 + (cheatLevel%4)
     gameScore = 0
+    diffGameScore = 0
     gameStatus = -1
 
     updateSoundSynth()
@@ -1610,6 +1616,7 @@ local function updateRoom()
                             keySprite:remove()
                             keySprites[i] = nil
                             gameScore += 100
+                            diffGameScore += 100
                         end
                     end
                 end
@@ -1822,6 +1829,10 @@ local function drawScore()
     gfx.setColor(gfx.kColorWhite)
     gfx.fillRect(roomX + 9 + roomAir, roomY + 195, 382 - roomAir, 2)
 
+    if diffGameScore > 10000 then
+        gameLives += 1
+        diffGameScore -= 10000
+    end
     -- Remaining lives
     for i = 1, gameLives-1 do
         multiTable:getImage(1):draw(roomX + i*14 - 6, roomY + 217)
@@ -1841,6 +1852,7 @@ local function emptyAir()
         local mLength = 0.1
         doBeep(sSynth, 2*(120-roomAir//6), mVol,  mLength)
         gameScore += 37
+        diffGameScore += 37
         drawScore()
     else
         if roomStatus > -1 then
@@ -2065,11 +2077,9 @@ local function updatePlayer()
             if jumpState==0 then
                 doJump()
             end
-        elseif cheatLevel>0 and playdate.buttonIsPressed(playdate.kButtonB) then
-            if playdate.buttonJustPressed(playdate.kButtonUp) then
-                roomNumber = roomNumber + 1
-                endRoom = true
-            end
+        elseif cheatLevel>0 and playdate.buttonIsPressed(playdate.kButtonB) and playdate.buttonJustPressed(playdate.kButtonUp) then
+            roomNumber = roomNumber + 1
+            endRoom = true
         elseif playdate.buttonIsPressed(playdate.kButtonRight) then
             moved, _, fall = checkPlayerMove(1,0)
         elseif playdate.buttonIsPressed(playdate.kButtonLeft) then
@@ -2192,8 +2202,8 @@ function playdate.update()
                     gameStatus = 3
                     if hiScore < gameScore then
                         hiScore = gameScore
-                        saveOptions()
                     end
+                    saveOptions()
                 end
                 endRoom = false
             end
