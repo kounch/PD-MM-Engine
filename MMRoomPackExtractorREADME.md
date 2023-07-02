@@ -1,4 +1,4 @@
-# Manic Miner Level Pack Extractor for Playdate Manic Miner Engine
+# Manic Miner RoomPack Extractor for Playdate Manic Miner Engine
 
 Copyright (c) 2023, kounch
 
@@ -16,7 +16,7 @@ Select your desired language / Elija idioma:
 
 ## English
 
-This script can analyze and extract data from ZX Spectrum Manic Miner games and then create a Levels Pack file structure for the Playdate Manic Miner Engine.
+This script can analyze and extract data from ZX Spectrum Manic Miner games and then create a RoomPack file structure for the Playdate Manic Miner Engine.
 
 ### Requirements
 
@@ -38,22 +38,22 @@ Command line options:
     -h, --help                               Show usage help message and exit
     -v, --version                            Show program's version number and exit
     -i INPUT_FILE, --input_file INPUT_FILE   Binary file with MM Data (org 32768)
-    -d OUTPUT_DIR, --output_dir OUTPUT_DIR   Output directory for Levels Pack
-    -c, --compile                            Try to compile the final Levels Pack using pdc
+    -d OUTPUT_DIR, --output_dir OUTPUT_DIR   Output directory for RoomPack
+    -c, --compile                            Try to compile the final RoomPack using pdc
     -b, --bugbyte                            Force using Bug Byte version extractor
     -s, --softwareprojects                   Force using Softare Projects version extractor
 
-The script needs a binary data file with a RAM dump (or extracted for example from a tape file) with the information starting from address 32768 (0x8000) and tries to guess what kind of binary date the file has, between the original release (Bug Byte) and the Software Projects release. Then it will try to extract the level and graphic data and dump it to Levels Pack files that the Manic Miner Engine for Playdate can read and use.
+The script needs a binary data file with a RAM dump (or extracted for example from a tape file) with the information starting from address 32768 (0x8000) and tries to guess what kind of binary date the file has, between the original release (Bug Byte) and the Software Projects release. Then it will try to extract the room and graphic data and dump it to RoomPack files that the Manic Miner Engine for Playdate can read and use.
 
 Optionally, if the [Playdate SDK](https://play.date/dev/) is installed and in the shell PATH, it can also try to convert the extracted PNG image files and existing WAV sound files to the PDI, PDT and PDA file formats used by the Playdate console.
 
-You can obtain several Manic Miner engine ZX Spectrum games from [JSW Central](https://jswcentral.org), and then,and then, after extracting the binary data from the corresponding tape file, use the script to create a basic Levels Pack to edit and refine.
+You can obtain several Manic Miner engine ZX Spectrum games from [JSW Central](https://jswcentral.org), and then,and then, after extracting the binary data from the corresponding tape file, use the script to create a basic RoomPack to edit and refine.
 
-### Levels Pack format
+### RoomPack format
 
-A Levels Pack for Playdate MM engine is comprised of the following:
+A RoomPack for Playdate MM engine is comprised of the following:
 
-- A `config.json` file with metadata like the music notes, the text to show, the name for the rest of the Levels Pack files, etc.
+- A `config.json` file with metadata like the music notes, the text to show, the name for the rest of the RoomPack files, etc.
 - Several graphic image files with the main game screen, sprites for the player and enemies, as well as the tiles that are assembled to make a room in the game
 - A `rooms.json` file with the layout for each of the rooms, as well as the enemies location, movement constrains, etc.
 - An (optional) sound file to be played when all the rooms are finished, and before starting again with the first one
@@ -69,7 +69,7 @@ The main `config.json` file is an object with the following structure:
     "SingleSprites":  -> Name (without extension ) of the static spritesheet table file
     "MultipleSprites":  -> Name (without extension ) of the animated spritesheet table file
     "Blocks":  -> Name (without extension ) of the room blocks imagetable file
-    "Levels":  -> Name (without extension ) of the rooms JSON file
+    "Rooms":  -> Name (without extension ) of the rooms JSON file
     "TitleMusic": [
         -> Array of Arrays with [length, counter, counter] for each pair of notes of main menu tune music
         ],
@@ -93,21 +93,21 @@ Music counter numbers are converted to frequency (to play a note) using this for
 
 Since most of this information is directly mapped from the original game data structure, see [Dr. Andrew Broad Manic Miner Room-Format](https://www.icemark.com/dataformats/manic/mmformat.htm) for more information. See also [All aboard the impulse train: an analysis of the two- channel title music routine in Manic Miner](https://rke.abertay.ac.uk/ws/portalfiles/portal/8564089/McAlpine_AllAboardTheImpulseTrain_Author_2015.pdf) for an explanation of how the original game music is made and encoded.
 
-##### Converting basic Levels Pack to enhanced
+##### Converting basic RoomPack to enhanced
 
-To convert a basic Levels Pack (with original 8x8 graphics) to a enhanced one for playdate (with 12x12 graphics), you should only have to scale the corresponding sprite and image files, and then edit the main `config.json`, changing `"Scale": 1` to `"Scale": 1.5`
+To convert a basic RoomPack (with original 8x8 graphics) to a enhanced one for playdate (with 12x12 graphics), you should only have to scale the corresponding sprite and image files, and then edit the main `config.json`, changing `"Scale": 1` to `"Scale": 1.5`
 
 #### Rooms JSON
 
-The rooms (levels) JSON file is a list of objects, each one of them with the following structure:
+The rooms JSON file is a list of objects, each one of them with the following structure:
 
     {
     "data": [
         -> An array of 16 text strings, each one of them made by 32 1-byte hexadecimal numbers, representint the attribute
            of a tile in the room.
         ],
-    "id": -> Unique number for each level used, for example, to get the image tile from the block images file
-    "name": -> Name of the level, shown down the in-game screen
+    "id": -> Unique number for each room used, for example, to get the image tile from the block images file
+    "name": -> Name of the room, shown down the in-game screen
     "special": {
         -> If it contains "Eugene", "Kong, "Skylab" or "Solar" apply the corresponding special rules for this room
         },
@@ -157,7 +157,7 @@ All the image files should be 1-bit with optional transparency (specially for sp
 
 ##### Main Image
 
-The main image shown in the main game menu, and its top third is also merged with the last level room layout ("The Final Barrier" in the original game). It can be of any size up to 384x192 pixels (bigger images will be cropped) and does not need any transparency since it will always be drawn behind everything else.
+The main image shown in the main game menu, and its top third is also merged with the last room room layout ("The Final Barrier" in the original game). It can be of any size up to 384x192 pixels (bigger images will be cropped) and does not need any transparency since it will always be drawn behind everything else.
 
 ##### Sprites
 
@@ -176,7 +176,7 @@ Sprite images should use transparency for their background or else strange artif
 
 ##### Blocks
 
-Depending on the scale, the block images can be 8x8 pixels or 12x12 pixels in size. They are stored in groups of 9, and there is one group for each of the level rooms, so the original game has 180 images.
+Depending on the scale, the block images can be 8x8 pixels or 12x12 pixels in size. They are stored in groups of 9, and there is one group for each of the rooms, so the original game has 180 images.
 
 For each group each of the block images is used for a different block type or element, with the following order:
 
@@ -202,7 +202,7 @@ The source for the optional ending sound should be an ADPCM encoded WAV (Microso
 
 ## Castellano
 
-Este script intenta analizar y extraer datos de juegos ZX Spectrum Manic Miner y luego crear una estructura de archivos de paquetes de niveles para el motor de Manic Miner para Playdate.
+Este script intenta analizar y extraer datos de juegos ZX Spectrum Manic Miner y luego crear una estructura de archivos de paquetes de habitaciones para el motor de Manic Miner para Playdate.
 
 ### Requisitos
 
@@ -224,25 +224,25 @@ Opciones de línea de comandos:
     -h, --help Mostrar el mensaje de ayuda de uso y salir
     -v, --version Mostrar la versión y salir
     -i ARCHIVO_DE_ENTRADA, -archivo_de_entrada ARCHIVO_DE_ENTRADA Archivo binario con datos de MM (org 32768)
-    -d DIR_SALIDA, --output_dir DIR_SALIDA Directorio de salida para el paquete de niveles
+    -d DIR_SALIDA, --output_dir DIR_SALIDA Directorio de salida para el paquete de habitaciones
     -c, --compile Intenta compilar el paquete final usando pdc
     -b, --bugbyte Forzar el uso del extractor de versiones Bug Byte
     -s, --softwareprojects Forzar el uso del extractor de versiones Softare Projects
 
-El script necesita un fichero binario de datos con un volcado de RAM (o extraído por ejemplo de un fichero de cinta) con los datos que comienzan en la dirección 32768 (0x8000) e intenta adivinar qué tipo formato binario tiene, entre la versión original (Bug Byte) y la versión de Software Projects. Luego intenta extraer los datos de niveles y gráficos y volcarlos a ficheros de un paquete de niveles que el motor de Manic Miner para Playdate pueda leer y utilizar.
+El script necesita un fichero binario de datos con un volcado de RAM (o extraído por ejemplo de un fichero de cinta) con los datos que comienzan en la dirección 32768 (0x8000) e intenta adivinar qué tipo formato binario tiene, entre la versión original (Bug Byte) y la versión de Software Projects. Luego intenta extraer los datos de habitaciones y gráficos y volcarlos a ficheros de un paquete de habitaciones que el motor de Manic Miner para Playdate pueda leer y utilizar.
 
 Opcionalmente, si el [SDK de Playdate](https://play.date/dev/) está instalado y en el PATH de la shell, también puede intentar convertir los archivos de imagen PNG extraídos y los archivos de sonido WAV existentes a los formatos de archivo PDI, PDT y PDA utilizados por la consola Playdate.
 
-Se pueden obtener juegos que usan el motor de Manic Miner de ZX Spectrum en [JSW Central](https://jswcentral.org),y así, después de extraer los datos binarios del archivo de cinta correspondiente, utilizar este script para crear un pack de niveles básico para luego editarlo y mejorarlo.
+Se pueden obtener juegos que usan el motor de Manic Miner de ZX Spectrum en [JSW Central](https://jswcentral.org),y así, después de extraer los datos binarios del archivo de cinta correspondiente, utilizar este script para crear un pack de habitaciones básico para luego editarlo y mejorarlo.
 
-### Formato del paquete de niveles
+### Formato del paquete de habitaciones
 
-Un paquete niveles del motor MM para Playdate se compone de lo siguiente:
+Un paquete habitaciones del motor MM para Playdate se compone de lo siguiente:
 
 - Un archivo `config.json` con metadatos como las notas musicales, el texto a mostrar, el nombre para el resto de archivos del paquete, etc.
-- Varios archivos de imágenes gráficas con la pantalla principal del juego, sprites del personaje principal y los enemigos, así como los bloques que se usan para formar una nivel en el juego.
-- Un archivo `rooms.json` con la distribución de cada una de las niveles, así como la ubicación de los enemigos, las restricciones de movimiento, etc.
-- Un archivo de sonido (opcional) que se reproducirá cuando todas se supere la nivel final, y antes de empezar de nuevo con la primera.
+- Varios archivos de imágenes gráficas con la pantalla principal del juego, sprites del personaje principal y los enemigos, así como los bloques que se usan para formar una habitación en el juego.
+- Un archivo `rooms.json` con la distribución de cada una de las habitaciones, así como la ubicación de los enemigos, las restricciones de movimiento, etc.
+- Un archivo de sonido (opcional) que se reproducirá cuando todas se supere la habitación final, y antes de empezar de nuevo con la primera.
 
 #### JSON principal
 
@@ -255,7 +255,7 @@ El archivo principal `config.json` es un objeto con la siguiente estructura:
     "SingleSprites":  -> Nombre (sin extensión ) del archivo de tabla de sprites estáticos
     "MultipleSprites":  -> Nombre (sin extensión ) del archivo de tabla de la hoja de sprites animados
     "Blocks":  -> Nombre (sin extensión ) del archivo de tabla de imágenes de los bloques de la sala
-    "Levels": -> Nombre (sin extensión ) del archivo JSON de las habitaciones
+    "Rooms": -> Nombre (sin extensión ) del archivo JSON de las habitaciones
     "TitleMusic": [
         -> Array de Arrays con [longitud, contador, contador] para cada par de notas de la música del menú principal
         ],
@@ -279,21 +279,21 @@ Los números del contador de música se convierten a frecuencias (para tocar una
 
 Dado que la mayor parte de esta información está directamente obtenida desde la estructura de datos original del juego, véase [Dr. Andrew Broad Manic Miner Room-Format](https://www.icemark.com/dataformats/manic/mmformat.htm) para más información. Véase también [All aboard the impulse train: an analysis of the two- channel title music routine in Manic Miner](https://rke.abertay.ac.uk/ws/portalfiles/portal/8564089/McAlpine_AllAboardTheImpulseTrain_Author_2015.pdf) para una explicación de cómo se hace y codifica la música original del juego.
 
-##### Conversión de un paquete de niveles básico a mejorado
+##### Conversión de un paquete de habitaciones básico a mejorado
 
-Para convertir un paquete de niveles básico (con gráficos originales 8x8) en uno mejorado para playdate (con gráficos 12x12), debería ser sufucieente que escalar los archivos de sprites e imágenes correspondientes al tamaño adecuado, y luego editar el archivo principal `config.json`, cambiando `"Scale": 1` por `"Scale": 1.5`
+Para convertir un paquete de habitaciones básico (con gráficos originales 8x8) en uno mejorado para playdate (con gráficos 12x12), debería ser sufucieente que escalar los archivos de sprites e imágenes correspondientes al tamaño adecuado, y luego editar el archivo principal `config.json`, cambiando `"Scale": 1` por `"Scale": 1.5`
 
-#### Fichero de niveles JSON
+#### Fichero de habitaciones JSON
 
-El fichero JSON de las habitaciones (niveles) es una lista de objetos, cada uno de ellos con la siguiente estructura:
+El fichero JSON de las habitaciones es una lista de objetos, cada uno de ellos con la siguiente estructura:
 
     {
     "data": [
         -> Un array de 16 cadenas de texto, cada una de ellas formada por 32 números hexadecimales de 1 byte, que representan el atributo de un bloque en la habitación.
         ],
-    "id": -> Número único para cada nivel. utilizado, por ejemplo, para obtener la imagen del bloque corespondiente desde el 
+    "id": -> Número único para cada habitación. utilizado, por ejemplo, para obtener la imagen del bloque corespondiente desde el 
              archivo de imágenes.
-    "name": -> Nombre del nivel, que se muestra abajo en la pantalla del juego
+    "name": -> Nombre de la habitación, que se muestra abajo en la pantalla del juego
     "special": {
         -> Si contiene "Eugene", "Kong", "Skylab" o "Solar" aplica las reglas especiales correspondientes para esta sala
         },
@@ -343,7 +343,7 @@ Todos los archivos de imagen deben ser de 1 bit con transparencia opcional (espe
 
 ##### Imagen principal
 
-La imagen que se muestra en el menú principal del juego, y cuyo tercio superior también se fusiona con el diseño de la sala del último nivel ("The final barrier" en el juego original). Puede ser de cualquier tamaño hasta 384x192 píxeles (las imágenes más grandes se recortarán) y no necesita ninguna transparencia ya que siempre se dibujará detrás de todo lo demás.
+La imagen que se muestra en el menú principal del juego, y cuyo tercio superior también se fusiona con el diseño de la sala de la última habitación ("The final barrier" en el juego original). Puede ser de cualquier tamaño hasta 384x192 píxeles (las imágenes más grandes se recortarán) y no necesita ninguna transparencia ya que siempre se dibujará detrás de todo lo demás.
 
 ##### Archivos de Sprites
 
@@ -362,7 +362,7 @@ Las imágenes de los sprites deben usar transparencia en el fondo o de lo contra
 
 ##### Bloques
 
-Dependiendo de la escala, las imágenes de los bloques pueden tener un tamaño de 8x8 píxeles o 12x12 píxeles. Se almacenan en grupos de 9, y hay un grupo por cada nivel, por lo que el juego original tiene 180 imágenes.
+Dependiendo de la escala, las imágenes de los bloques pueden tener un tamaño de 8x8 píxeles o 12x12 píxeles. Se almacenan en grupos de 9, y hay un grupo por cada habitación, por lo que el juego original tiene 180 imágenes.
 
 En cada grupo, cada una de las imágenes se utiliza para un tipo de bloque o elemento diferente, con el siguiente orden:
 

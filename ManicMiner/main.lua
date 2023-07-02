@@ -17,8 +17,8 @@ gfx.setBackgroundColor(gfx.kColorWhite)
 -- Global vars --
 -----------------
 
-local configPath = nil    -- Path to current level pack config directory
-local configData = nil    -- Current level pack config
+local configPath = nil    -- Path to current roomPack config directory
+local configData = nil    -- Current roomPack config
 local roomsData = nil     -- All rooms data (obtained from JSON)
 local hiScore = nil       -- All times High Score
 local crankRadius = 0     -- Used for crank controls
@@ -91,7 +91,7 @@ local ki = 1
 local oldGameStatus = 0
 
 -- Other
-local iStep = 0           -- Global counter for foot step animation / Level Pack Menu / Demo mode
+local iStep = 0           -- Global counter for foot step animation / RoomPack Menu / Demo mode
 local mSynth = nil        -- Sound Synth for music
 local sSynth = nil        -- Sound Synth for sound effects
 local sSample = nil       -- Sound Sample for game ending
@@ -463,7 +463,7 @@ local function loadData()
     -- Load all static assets
 
     print("Loading assets...")
-    local roomsFile = playdate.file.open(configPath .. configData.Levels .. ".json")
+    local roomsFile = playdate.file.open(configPath .. configData.Rooms .. ".json")
     assert(roomsFile)
     roomsData = json.decodeFile(roomsFile)
     assert(roomsData)
@@ -520,7 +520,7 @@ local function buildBgSprite(room)
     gfx.setLineWidth(1)
     gfx.drawRect(rectX-1, rectY, rectW+2, rectH) -- game room space
     gfx.drawTextAligned(room.name, 205, 220, kTextAlignment.center)
-    if roomNumber==#roomsData then  -- Last level uses part of the main screen
+    if roomNumber==#roomsData then  -- Last room uses part of the main screen
         local tmpImage = gfx.image.new(configPath .. configData.Menu)
         tmpImage:draw(rectX, rectY, gfx.kImageUnflipped, 0, 0, i_hg, 56 * lscale)
     end
@@ -913,7 +913,7 @@ local function DrawMenu()
     gfx.fillRect(13, 145, 364, 20)
     gfx.setColor(gfx.kColorBlack)
     gfx.drawRoundRect(5, 5, 390, 230, 5)
-    gfx.drawTextAligned("Press *A* to Start - *B* to Change Levels Pack", 200, 148, kTextAlignment.center)
+    gfx.drawTextAligned("Press *A* to Start - *B* to Change RoomPack", 200, 148, kTextAlignment.center)
     gfx.setLineWidth(1)
     gfx.drawRect(7, 175, 385, 26)
 
@@ -936,7 +936,7 @@ local function DrawMenu()
 end
 
 local function drawConfigMenu(listNames, iName)
-    -- Draws the level pack selection menu
+    -- Draws the roomPack selection menu
 
     DrawMenu()
     gfx.setLineWidth(3)
@@ -947,7 +947,7 @@ local function drawConfigMenu(listNames, iName)
     gfx.setLineWidth(1)
     gfx.drawRoundRect(42, 65, 315, 130, 3)
 
-    gfx.drawTextAligned("Select a Levels Pack and Press *A*", 200, 40, kTextAlignment.center)
+    gfx.drawTextAligned("Select a RoomPack and Press *A*", 200, 40, kTextAlignment.center)
 
     local minLine = (iName-1)//6*6 + 1
     local maxLine = math.min(minLine + 5, #listNames)
@@ -1391,7 +1391,7 @@ local function updateMenu()
 end
 
 local function updateConfigMenu()
-    -- Checks inputs and changes level Pack if needed
+    -- Checks inputs and changes roomPack if needed
 
     local crankSensitivity = 60
     if gameStatus == 5 then
@@ -1495,7 +1495,7 @@ local function updateRestore()
 
     gfx.drawTextAligned("Manic Miner for Playdate", 200, 58, kTextAlignment.center)
     gfx.drawTextInRect("Found a previous game. What would you like to do?", 60, 95, 280, 100, nil, nil, kTextAlignment.left)
-    gfx.drawTextAligned("Press *A* to restart the last level", 200, 145, kTextAlignment.center)
+    gfx.drawTextAligned("Press *A* to restart the last room", 200, 145, kTextAlignment.center)
     gfx.drawTextAligned("Press *B* to cancel", 200, 170, kTextAlignment.center)
 
     if playdate.buttonJustPressed(playdate.kButtonA) then
@@ -2131,7 +2131,7 @@ local function updateGame()
 end
 
 local function updateDemo()
-    -- Demo mode loop that cycles through all level screens
+    -- Demo mode loop that cycles through all room screens
 
     if gameStatus == 8 then
         if iStep % 40 == 0 then
@@ -2177,7 +2177,7 @@ function playdate.update()
 --  2 - Finished a rooom (depleting air)
 --  3 - Game Over (killed)
 --  4 - Game Over (finished last room)
---  5 - Level Pack selection menu
+--  5 - RoomPack selection menu
 --  6 - Credits
 --  7 - Restore previous game menu
 --  8 - Demo mode (after menu tune and banner text)

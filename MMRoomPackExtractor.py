@@ -300,7 +300,7 @@ def create_config(str_packname: str, bin_data: bytes,
     main_data['SingleSprites'] = 'single-8'
     main_data['MultipleSprites'] = 'multiple-8'
     main_data['Blocks'] = 'rooms-8'
-    main_data['Levels'] = 'rooms'
+    main_data['Rooms'] = 'rooms'
     main_data['TitleMusic'] = []
     main_data['ShowPiano'] = False
     main_data['Banner'] = []
