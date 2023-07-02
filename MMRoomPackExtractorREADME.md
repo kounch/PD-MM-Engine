@@ -31,7 +31,7 @@ You can install Pillow using `pip`. For example, to have a private virtual envir
 
 Invoke the script using a Python environment with Pillow installed:
 
-    ...python3 ...MMlevelsPackExtractor.py [-h] [-v] -i INPUT_FILE [-d OUTPUT_DIR] [-c] [-b] [-s] [--debug]
+    ...python3 ...MMroomPackExtractor.py [-h] [-v] -i INPUT_FILE [-d OUTPUT_DIR] [-c] [-b] [-s] [--debug]
 
 Command line options:
 
@@ -217,7 +217,7 @@ Se puede instalar Pillow usando `pip`. Por ejemplo, para tener un entorno virtua
 
 Invocar el script utilizando un entorno Python con Pillow instalado:
 
-    ...python3 ...MMlevelsPackExtractor.py [-h] [-v] -i ARCHIVO_DE_ENTRADA [-d_DIR_DE_SALIDA] [-c] [-b] [-s] [--debug]
+    ...python3 ...MMroomPackExtractor.py [-h] [-v] -i ARCHIVO_DE_ENTRADA [-d_DIR_DE_SALIDA] [-c] [-b] [-s] [--debug]
 
 Opciones de línea de comandos:
 

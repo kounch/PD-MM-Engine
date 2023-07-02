@@ -1096,12 +1096,12 @@ local function SetPlaydateMenu()
 end
 
 local function gameSetUp()
-    -- Main basic initialization. This is done once per levelPack
+    -- Main basic initialization. This is done once per roomPack
 
     print("Loading config...")
     local gameOptions = playdate.datastore.read()
 
-    configPath = "levelPacks/Manic Miner/"
+    configPath = "roomPacks/Manic Miner/"
     if gameOptions and gameOptions.configPath then
         if playdate.file.isdir(gameOptions.configPath) then
             if playdate.file.exists(gameOptions.configPath .. "config.json") then
@@ -1400,12 +1400,12 @@ local function updateConfigMenu()
         end
 
         local listPacks = {}
-        local listDir = playdate.file.listFiles("levelPacks/")
+        local listDir = playdate.file.listFiles("roomPacks/")
         local iPack = 1
         for _, value in pairs(listDir) do
-            if playdate.file.exists("levelPacks/" .. value .. "config.json") then
+            if playdate.file.exists("roomPacks/" .. value .. "config.json") then
                 table.insert(listPacks, value:sub(1,#value-1))
-                if iStep == 0 and "levelPacks/" .. value == configPath then
+                if iStep == 0 and "roomPacks/" .. value == configPath then
                     iStep = iPack
                 end
                 iPack +=1
@@ -1416,8 +1416,8 @@ local function updateConfigMenu()
         end
 
         if playdate.buttonJustPressed(playdate.kButtonA) then
-            if playdate.file.exists("levelPacks/" .. listPacks[iStep] .. "/" .. "config.json") then
-                configPath = "levelPacks/" .. listPacks[iStep] .. "/"
+            if playdate.file.exists("roomPacks/" .. listPacks[iStep] .. "/" .. "config.json") then
+                configPath = "roomPacks/" .. listPacks[iStep] .. "/"
                 roomNumber = 0
                 saveOptions()
                 gameSetUp()

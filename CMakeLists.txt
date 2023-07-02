@@ -41,10 +41,10 @@ add_custom_command(
     OUTPUT ${OUTPUT_DIR}/${PROJECT_NAME}.pdx
     DEPENDS ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/main.lua
     COMMAND ${PDC_BINARY} -k ${PROJECT_SOURCE_DIR}/${PROJECT_NAME} ${OUTPUT_DIR}/${PROJECT_NAME}.pdx
-    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/levelPacks/Manic Miner/rooms.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/levelPacks/Manic Miner/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/levelPacks/Manic Miner/config.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/levelPacks/Manic Miner/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/levelPacks/Manic Miner \\(Original\\)/rooms.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/levelPacks/Manic Miner \\(Original\\)/"
-    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/levelPacks/Manic Miner \\(Original\\)/config.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/levelPacks/Manic Miner \\(Original\\)/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/roomPacks/Manic Miner/rooms.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/roomPacks/Manic Miner/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/roomPacks/Manic Miner/config.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/roomPacks/Manic Miner/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/roomPacks/Manic Miner \\(Original\\)/rooms.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/roomPacks/Manic Miner \\(Original\\)/"
+    COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/roomPacks/Manic Miner \\(Original\\)/config.json" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/roomPacks/Manic Miner \\(Original\\)/"
     COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/launcher/icon-highlighted/animation.txt" "${OUTPUT_DIR}/${PROJECT_NAME}.pdx/launcher/icon-highlighted/"
     COMMENT "Build playdate Binary"
     )

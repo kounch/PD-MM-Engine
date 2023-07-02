@@ -10,7 +10,7 @@ All rights reserved.
 SPDX-License-Identifier: BSD-2-Clause
 
 This is a tool that tries to analyze and extract data from ZX Spectrum
-Manic Miner games and then create levelPack files for the Playdate Manic
+Manic Miner games and then create roomPack files for the Playdate Manic
 Miner Engine.
 """
 
@@ -54,7 +54,7 @@ def main():
     str_outdir = arg_data['output_dir']
     str_name = arg_data['name']
 
-    print(f'New levelPack: {str_name}')
+    print(f'New roomPack: {str_name}')
     try:
         with open(str_file, "rb") as bin_file:
             b_data: bytes = bin_file.read()
@@ -210,7 +210,7 @@ def parse_args() -> dict[str, Any]:
     values['force'] = ''
 
     parser = argparse.ArgumentParser(
-        description='LevelPack extractor for Playdate Manic Miner Engine',
+        description='roomPack extractor for Playdate Manic Miner Engine',
         epilog='Analyze and extract data from ZX Spoectrum Manic Miner games')
     parser.add_argument('-v',
                         '--version',
@@ -227,13 +227,13 @@ def parse_args() -> dict[str, Any]:
                         required=False,
                         action='store',
                         dest='output_dir',
-                        help='Output directory for levelPack')
+                        help='Output directory for roomPack')
     parser.add_argument('-c',
                         '--compile',
                         required=False,
                         action='store_true',
                         dest='compile',
-                        help='Try to compile the final levelPack using pdc')
+                        help='Try to compile the final roomPack using pdc')
     parser.add_argument('-b',
                         '--bugbyte',
                         required=False,
@@ -292,7 +292,7 @@ def parse_args() -> dict[str, Any]:
 
 def create_config(str_packname: str, bin_data: bytes,
                   list_format: list[Any]) -> dict[str, Any]:
-    """Creates the main levelPack config data"""
+    """Creates the main roomPack config data"""
     main_data: dict[str, Union[str, int, list[Any]]] = {}
     main_data['Name'] = str_packname
     main_data['Scale'] = 1
