@@ -27,12 +27,56 @@ endif()
 set(BASENAME ${PROJECT_NAME})
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR})
 
+set(EXTRA_DOCS
+    LICENSE
+    README.md
+    )
+
 set(CMAKE_PREFIX_PATH
         ${SDK}/bin
         )
 
 # Check module availability
 find_package(pdc)
+find_package(asciidoctor-pdf)
+
+# Function to build PDF files
+function(MAKE_PDF PDF_LANG)
+    if(PDF_LANG STREQUAL "es")
+        set(PDF_NAME "Manual de Manic Miner Engine para Playdate.pdf")
+    else()
+        set(PDF_NAME "Manic Miner Engine for Playdate Manual.pdf")
+    endif()
+
+    add_custom_target("pdfdocs_${PDF_LANG}" ALL
+        DEPENDS ${OUTPUT_DIR}/${PDF_NAME}
+    )
+    add_custom_command(OUTPUT ${OUTPUT_DIR}/${PDF_NAME}
+        DEPENDS ${PROJECT_SOURCE_DIR}/Manual/${PDF_LANG}/index.adoc
+        COMMAND ${ASCIIDOCTOR_PDF_BINARY} -a pdf-stylesdir=${PROJECT_SOURCE_DIR}/Manual -a pdf-style=style.yml -o ${PDF_DIR}/${PDF_NAME} ${PROJECT_SOURCE_DIR}/Manual/${PDF_LANG}/index.adoc
+        COMMENT "${PDF_LANG} Docs"
+    )
+endfunction()   
+
+# Build localized PDFs
+if(ASCIIDOCTOR-PDF_FOUND)
+    message("Prepare docs build")
+    set(PDF_DIR "${OUTPUT_DIR}/docs")
+    file(MAKE_DIRECTORY ${PDF_DIR})
+
+    make_pdf("es")
+    make_pdf("en")
+
+    add_custom_target(extra_docs ALL
+        DEPENDS ${OUTPUT_DIR}/docs
+    )
+    foreach(file_i ${EXTRA_DOCS})
+        add_custom_command(TARGET extra_docs
+            COMMAND ${CMAKE_COMMAND} ARGS -E copy ${PROJECT_SOURCE_DIR}/${file_i} ${OUTPUT_DIR}/docs
+            BYPRODUCTS ${OUTPUT_DIR}/docs/${file_i}
+        )
+    endforeach(file_i)
+endif()
 
 add_custom_target("ManicMiner" ALL
     DEPENDS ${OUTPUT_DIR}/${PROJECT_NAME}.pdx

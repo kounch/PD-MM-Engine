@@ -1,0 +1,29 @@
+extends: default
+
+page:
+  background-color: EDE5B6
+  size: [595.28, 595.28]
+
+title-page:
+  background-color: EDE5B6
+  size: [595.28, 595.28]
+
+base:
+  text-align: justify
+  font-family: M+ 1mn
+  font-size: 10
+
+header:
+  height: 15mm
+  font-family: M+ 1mn
+  recto:
+    center:
+      content: "{document-title} : {section-or-chapter-title}"
+  verso:
+    center:
+      content: "{document-title} : {section-or-chapter-title}"
+
+code:
+  line-height: 1.00
+  font-size: 7.5
+
