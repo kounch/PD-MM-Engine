@@ -53,7 +53,7 @@ function(MAKE_PDF PDF_LANG)
     )
     add_custom_command(OUTPUT ${OUTPUT_DIR}/${PDF_NAME}
         DEPENDS ${PROJECT_SOURCE_DIR}/Manual/${PDF_LANG}/index.adoc
-        COMMAND ${ASCIIDOCTOR_PDF_BINARY} -a pdf-stylesdir=${PROJECT_SOURCE_DIR}/Manual -a pdf-style=style.yml -o ${PDF_DIR}/${PDF_NAME} ${PROJECT_SOURCE_DIR}/Manual/${PDF_LANG}/index.adoc
+        COMMAND ${ASCIIDOCTOR_PDF_BINARY} -a pdf-themesdir=${PROJECT_SOURCE_DIR}/Manual -a pdf-theme=style.yml -o ${PDF_DIR}/${PDF_NAME} ${PROJECT_SOURCE_DIR}/Manual/${PDF_LANG}/index.adoc
         COMMENT "${PDF_LANG} Docs"
     )
 endfunction()   
