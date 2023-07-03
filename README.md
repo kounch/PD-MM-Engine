@@ -20,6 +20,8 @@ This is a version of the Manic Miner game engine, made with [Lua](https://www.lu
 
 Manic Miner is a platform video game written for the ZX Spectrum by Matthew Smith, published originally by Bug-Byte in 1983, then by Software Projects. Some have called Manic Miner one of the most influential platform games of all time, and it has been ported to numerous home computers, video game consoles, and mobile phones among others.
 
+Please visit [the official website](https://kounch.itch.io) for installation instructions and more information.
+
 ### References
 
 [Manic Miner ZX Spectrum Source Code](https://github.com/SomeProgrammerGuy/Manic-Miner-Source-Code)
@@ -31,6 +33,8 @@ Manic Miner is a platform video game written for the ZX Spectrum by Matthew Smit
 Esta es una versión del motor del juego Manic Miner, creado con [Lua](https://www.lua.org), para la videoconsola portátil [Playdate](https://play.date) desarrollada por [Panic](https://panic.com/).
 
 Manic Miner es un videojuego de plataformas para ZX Spectrum, escrito por Matthew Smith y publicado originalmente por Bug-Byte en 1983 y luego por Software Projects. Algunos lo han calificado como uno de los juegos de plataformas más influyentes de todos los tiempos, y ha sido portado a muchos ordenadores, consolas de videojuegos y teléfonos móviles entre otros.
+
+Por favor visite [la web oficial](https://kounch.itch.io) para obtener instrucciones de instalación y más información.
 
 ### Referencias
 
